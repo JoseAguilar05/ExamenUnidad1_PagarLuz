@@ -5,9 +5,12 @@
 package mx.itson_252049.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import mx.itson_252049.models.entitys.Cliente;
+import mx.itson_252049.models.entitys.Consumo;
+import mx.itson_252049.models.enums.EstadoConsumo;
 
 /**
  *
@@ -20,10 +23,21 @@ public class ClienteModel {
     private List<Cliente> clientes = new ArrayList<>();
 
     public ClienteModel() {
-       
-        clientes.add(new Cliente(1, "Juan Pérez", "12345", "Calle 1"));
-        clientes.add(new Cliente(2, "María López", "12346", "Calle 2"));
-        clientes.add(new Cliente(3, "Carlos Ruiz", "98765", "Calle 3"));
+        // Cliente 1 con consumo pendiente
+        Cliente c1 = new Cliente(1, "Juan Pérez", "12345", "Calle 1");
+        c1.agregarConsumo(new Consumo(1, new Date(), 500.0, EstadoConsumo.PENDIENTE));
+
+        // Cliente 2 con consumo pendiente
+        Cliente c2 = new Cliente(2, "María López", "12346", "Calle 2");
+        c2.agregarConsumo(new Consumo(2, new Date(), 750.0, EstadoConsumo.PENDIENTE));
+
+        // Cliente 3 con consumo vencido
+        Cliente c3 = new Cliente(3, "Carlos Ruiz", "98765", "Calle 3");
+        c3.agregarConsumo(new Consumo(3, new Date(), 1200.0, EstadoConsumo.VENCIDO));
+
+        clientes.add(c1);
+        clientes.add(c2);
+        clientes.add(c3);
     }
 
     /**
@@ -51,7 +65,6 @@ public class ClienteModel {
 
     /**
      * Método auxiliar para agregar clientes a la lista (simulación de persistencia).
-     * @param cliente
      */
     public void agregarCliente(Cliente cliente) {
         clientes.add(cliente);
@@ -59,11 +72,11 @@ public class ClienteModel {
 
     /**
      * Devuelve todos los clientes registrados.
-     * @return 
      */
     public List<Cliente> obtenerTodos() {
         return clientes;
     }
 }
+
 
 

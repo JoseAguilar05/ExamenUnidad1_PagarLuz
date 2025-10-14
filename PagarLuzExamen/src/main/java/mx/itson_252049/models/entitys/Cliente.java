@@ -47,11 +47,11 @@ public class Cliente {
         this.consumos.add(consumo);
     }
 
-    @Override
+        @Override
     public String toString() {
-        return "Cliente{" + "idCliente=" + idCliente + ", nombre=" + nombre + ", numeroServicio=" + numeroServicio + ", direccion=" + direccion + ", consumos=" + consumos + '}';
+        return idCliente + " - " + nombre + " (Numero de Servicio: " + numeroServicio + ")";
     }
-    
+
     
 }
 
