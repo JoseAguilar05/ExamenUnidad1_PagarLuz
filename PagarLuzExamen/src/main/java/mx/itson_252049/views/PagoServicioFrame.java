@@ -135,11 +135,10 @@ public class PagoServicioFrame extends JFrame implements Observer{
          }
 
   @Override
-    public void update() {
-  
-        Recibo recibo = reciboModel.getReciboGenerado();
+    public void update(ReciboModel recibo) {
+
         if (recibo != null) {
-            areaRecibo.setText(recibo.toString());
+            areaRecibo.setText(recibo.getReciboGenerado().getFormateado());
         }
     }
 }

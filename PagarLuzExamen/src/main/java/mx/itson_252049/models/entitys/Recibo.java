@@ -48,8 +48,8 @@ public class Recibo {
         return this.tarjeta;
     }
     
-        @Override
-     public String toString() {
+       
+     public String getFormateado() {
          return "=== RECIBO DE PAGO ===\n" +
                 "ID Recibo: " + idRecibo + "\n" +
                 "Fecha de pago: " + fechaPago + "\n" +

@@ -4,11 +4,13 @@
  */
 package mx.itson_252049.models.observer;
 
+import mx.itson_252049.models.ReciboModel;
+
 /**
  *
  * @author Cricri
  */
 public interface Observer {
-    void update();
+    void update(ReciboModel recibo);
 
 }

@@ -34,7 +34,7 @@ public class ReciboModel {
    
     private void notifyObservers() {
         for (Observer observer : observers) {
-            observer.update(); 
+            observer.update(this); 
         }
     }
 
