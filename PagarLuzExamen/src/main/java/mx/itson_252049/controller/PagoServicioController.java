@@ -34,40 +34,36 @@ public class PagoServicioController {
         this.reciboModel = reciboModel;
     }
 
-    /**
-     * Paso 1: Buscar clientes por número de servicio.
-     */
+    
     public List<Cliente> buscarPorNumeroServicio(String numeroServicio) {
         return clienteModel.buscarPorNumeroServicio(numeroServicio);
     }
 
-    /**
-     * Paso 2: Seleccionar cliente por ID.
-     */
     public Cliente seleccionarCliente(int idCliente) {
         return clienteModel.seleccionarCliente(idCliente);
     }
 
-    /**
-     * Paso 3: Obtener datos de consumo de un cliente.
-     */
     public Consumo obtenerDatosConsumo(String numeroServicio) {
         return consumoModel.obtenerDatosConsumo(numeroServicio);
     }
 
-    /**
-     * Paso 4: Validar tarjeta.
-     */
     public boolean validarTarjeta(Tarjeta tarjeta) {
         return tarjetaModel.validarTarjeta(tarjeta);
     }
 
-    /**
-     * Paso 5: Generar recibo de pago.
-     */
     public Recibo generarRecibo(Cliente cliente, Consumo consumo, Tarjeta tarjeta) {
         reciboModel.generaRecibo(cliente, consumo, tarjeta);
         return reciboModel.getReciboGenerado();
+    }
+
+    public Recibo confirmarPago(Cliente cliente, Consumo consumo, String numeroTarjeta) {
+        Tarjeta tarjeta = tarjetaModel.crearTarjeta(numeroTarjeta);
+
+        if (!tarjetaModel.validarTarjeta(tarjeta)) {
+            throw new IllegalArgumentException("Tarjeta no válida. Debe tener 16 dígitos y estar vigente.");
+        }
+
+        return generarRecibo(cliente, consumo, tarjeta);
     }
 }
    

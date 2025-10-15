@@ -112,27 +112,22 @@ public class PagoServicioFrame extends JFrame{
             }
         });
 
-       
-txtNumeroTarjeta.addActionListener(e -> {
-    if (clienteSeleccionado != null && consumoSeleccionado != null) {
-       
-        Date fechaVencimiento = new Date(System.currentTimeMillis() + (3L * 365 * 24 * 60 * 60 * 1000));
 
-        Tarjeta tarjeta = new Tarjeta(
-                txtNumeroTarjeta.getText(),
-                "Débito",
-                "Banco X",
-                fechaVencimiento
-        );
-
-        if (controller.validarTarjeta(tarjeta)) {
-            Recibo recibo = controller.generarRecibo(clienteSeleccionado, consumoSeleccionado, tarjeta);
-            areaRecibo.setText(recibo.toString());
-        } else {
-            JOptionPane.showMessageDialog(this, "Tarjeta no válida. Debe tener 16 dígitos y estar vigente.");
+    txtNumeroTarjeta.addActionListener(e -> {
+        if (clienteSeleccionado != null && consumoSeleccionado != null) {
+            try {
+                Recibo recibo = controller.confirmarPago(
+                    clienteSeleccionado,
+                    consumoSeleccionado,
+                    txtNumeroTarjeta.getText()
+                );
+                areaRecibo.setText(recibo.toString());
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
         }
-    }
-});
+    });
+
 
 }
     

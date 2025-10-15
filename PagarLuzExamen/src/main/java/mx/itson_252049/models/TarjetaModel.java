@@ -4,6 +4,7 @@
  */
 package mx.itson_252049.models;
 
+import java.util.Date;
 import mx.itson_252049.models.entitys.Tarjeta;
 
 /**
@@ -22,6 +23,17 @@ public class TarjetaModel {
             return false;
         }
         return tarjeta.validarTarjeta();
+    }
+    
+    
+    /**
+     * Crea una tarjeta con vencimiento a 3 años.
+     * @param numero
+     * @return 
+     */
+    public Tarjeta crearTarjeta(String numero) {
+        Date fechaVencimiento = new Date(System.currentTimeMillis() + (3L * 365 * 24 * 60 * 60 * 1000));
+        return new Tarjeta(numero, "Débito", "Banco X", fechaVencimiento);
     }
 }
 
