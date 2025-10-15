@@ -14,6 +14,7 @@ import mx.itson_252049.models.entitys.Cliente;
 import mx.itson_252049.models.entitys.Consumo;
 import mx.itson_252049.models.entitys.Recibo;
 import mx.itson_252049.models.entitys.Tarjeta;
+import mx.itson_252049.models.exception.ValidacionTarjetaException;
 
 /**
  *
@@ -50,10 +51,9 @@ public class PagoServicioController {
         Tarjeta tarjeta = tarjetaModel.crearTarjeta(numeroTarjeta);
 
      
-        if (!tarjetaModel.validarTarjeta(tarjeta)) {
-  
-            throw new IllegalArgumentException("Tarjeta no válida. Debe tener 16 dígitos y estar vigente.");
-        }
+       if (!tarjetaModel.validarTarjeta(tarjeta)) {
+         throw new ValidacionTarjetaException("Tarjeta no válida. Debe tener 16 dígitos y estar vigente.");
+     }
 
         reciboModel.generaRecibo(cliente, consumo, tarjeta);
     }
