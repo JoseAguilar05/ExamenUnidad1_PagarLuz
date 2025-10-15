@@ -51,9 +51,10 @@ public class PagoServicioController {
         Tarjeta tarjeta = tarjetaModel.crearTarjeta(numeroTarjeta);
 
      
-       if (!tarjetaModel.validarTarjeta(tarjeta)) {
-         throw new ValidacionTarjetaException("Tarjeta no válida. Debe tener 16 dígitos y estar vigente.");
-     }
+        if (!tarjetaModel.validarTarjeta(tarjeta)) {
+  
+            throw new IllegalArgumentException("Tarjeta no válida. Debe tener 16 dígitos y estar vigente.");
+        }
 
         reciboModel.generaRecibo(cliente, consumo, tarjeta);
     }
