@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Cricri
  */
-public class PagarLuzExamen {
+public class MainPagarLuz {
 
      public static void main(String[] args) {
         
