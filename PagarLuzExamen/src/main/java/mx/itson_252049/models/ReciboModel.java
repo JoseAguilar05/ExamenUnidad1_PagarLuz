@@ -27,19 +27,25 @@ public class ReciboModel {
      * @param tarjeta Tarjeta con la que se realiza el pago
      */
     public void generaRecibo(Cliente cliente, Consumo consumo, Tarjeta tarjeta) {
-        // Generamos un número de autorización único
-        String numeroAutorizacion = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    // Generamos un número de autorización único
+    String numeroAutorizacion = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
         // Creamos el recibo
-        reciboGenerado = new Recibo(
-                (int) (Math.random() * 10000), // id aleatorio
-                new Date(),                    // fecha actual
-                consumo.calcularMonto(),       // monto pagado
-                numeroAutorizacion             // número de autorización
-        );
+    reciboGenerado = new Recibo(
+            (int) (Math.random() * 10000), // id aleatorio
+            new Date(),                    // fecha actual
+            consumo.calcularMonto(),       // monto pagado
+            numeroAutorizacion             // número de autorización
+    );
 
-        // Actualizamos el estado del consumo a PAGADO
-        consumo.actualizarEstado(mx.itson_252049.models.enums.EstadoConsumo.PAGADO);
+    
+    reciboGenerado.agregarTarjeta(tarjeta);
+
+    
+    consumo.setRecibo(reciboGenerado);
+
+ 
+    consumo.actualizarEstado(mx.itson_252049.models.enums.EstadoConsumo.PAGADO);
     }
 
     
@@ -57,6 +63,7 @@ public class ReciboModel {
     public Recibo getReciboGenerado() {
         return reciboGenerado;
     }
+    
 }
 
 

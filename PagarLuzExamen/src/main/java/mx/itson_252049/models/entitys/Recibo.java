@@ -4,18 +4,22 @@
  */
 package mx.itson_252049.models.entitys;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author Cricri
  */
 public class Recibo {
-
+    
     private int idRecibo;
     private Date fechaPago;
     private double montoPagado;
     private String numeroAutorizacion;
+    private List<Tarjeta> tarjetas = new ArrayList<>();
 
     public Recibo(int idRecibo, Date fechaPago, double montoPagado, String numeroAutorizacion) {
         this.idRecibo = idRecibo;
@@ -35,6 +39,16 @@ public class Recibo {
 
     public String getNumeroAutorizacion() { return numeroAutorizacion; }
     public void setNumeroAutorizacion(String numeroAutorizacion) { this.numeroAutorizacion = numeroAutorizacion; }
+    
+    
+    public void agregarTarjeta(Tarjeta tarjeta) {
+        tarjetas.add(tarjeta);
+    }
+    
+    
+   public List<Tarjeta> getTarjetas() {
+        return Collections.unmodifiableList(tarjetas);
+    }
 
         @Override
      public String toString() {

@@ -18,6 +18,7 @@ public class Consumo {
     private Date fechaConsumo;
     private double montoConsumo;
     private EstadoConsumo estado;
+    private Recibo recibo; 
 
     public Consumo(int idConsumo, Date fechaConsumo, double montoConsumo, EstadoConsumo estado) {
         this.idConsumo = idConsumo;
@@ -46,6 +47,9 @@ public class Consumo {
 
     public EstadoConsumo getEstado() { return estado; }
     public void setEstado(EstadoConsumo estado) { this.estado = estado; }
+    
+    public Recibo getRecibo() { return recibo; }
+    public void setRecibo(Recibo recibo) { this.recibo = recibo; }
 
     @Override
     public String toString() {
