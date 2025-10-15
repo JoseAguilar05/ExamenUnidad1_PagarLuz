@@ -16,6 +16,7 @@ import java.awt.event.*;
 import java.util.Date;
 import java.util.List;
 import mx.itson_252049.models.ReciboModel;
+import mx.itson_252049.models.exception.ValidacionTarjetaException;
 import mx.itson_252049.models.observer.Observer;
 
 
@@ -117,21 +118,21 @@ public class PagoServicioFrame extends JFrame implements Observer{
         });
 
         
-        txtNumeroTarjeta.addActionListener(e -> {
-            if (clienteSeleccionado != null && consumoSeleccionado != null) {
-                try {
-                  
-                    controller.confirmarPago(
-                            clienteSeleccionado,
-                            consumoSeleccionado,
-                            txtNumeroTarjeta.getText()
-                    );
-                } catch (IllegalArgumentException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                }
-            }
-        });
-    }
+            txtNumeroTarjeta.addActionListener(e -> {
+         if (clienteSeleccionado != null && consumoSeleccionado != null) {
+             try {
+                 controller.confirmarPago(
+                     clienteSeleccionado,
+                     consumoSeleccionado,
+                     txtNumeroTarjeta.getText()
+                 );
+             } catch (ValidacionTarjetaException ex) {
+                 JOptionPane.showMessageDialog(this, ex.getMessage(), 
+                     "Error de validación", JOptionPane.ERROR_MESSAGE);
+             }
+         }
+     });
+         }
 
   @Override
     public void update() {
