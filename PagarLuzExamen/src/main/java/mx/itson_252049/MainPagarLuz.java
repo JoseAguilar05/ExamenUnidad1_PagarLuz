@@ -19,20 +19,21 @@ import javax.swing.SwingUtilities;
 public class MainPagarLuz {
 
      public static void main(String[] args) {
-        
+       
         ClienteModel clienteModel = new ClienteModel();
         ConsumoModel consumoModel = new ConsumoModel(clienteModel);
         TarjetaModel tarjetaModel = new TarjetaModel();
         ReciboModel reciboModel = new ReciboModel();
 
-      
+        
         PagoServicioController controller = new PagoServicioController(
                 clienteModel, consumoModel, tarjetaModel, reciboModel
         );
 
-        
+       
         SwingUtilities.invokeLater(() -> {
-            PagoServicioFrame frame = new PagoServicioFrame(controller);
+         
+            PagoServicioFrame frame = new PagoServicioFrame(controller, reciboModel);
             frame.setVisible(true);
         });
     }

@@ -15,17 +15,21 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
 import java.util.List;
+import mx.itson_252049.models.ReciboModel;
+import mx.itson_252049.models.observer.Observer;
 
 
 /**
  *
  * @author Cricri
  */
-public class PagoServicioFrame extends JFrame{
+public class PagoServicioFrame extends JFrame implements Observer{
+  private final PagoServicioController controller;
+    
+   
+    private final ReciboModel reciboModel;
+
   
-
-    private final PagoServicioController controller;
-
     private JTextField txtNumeroServicio;
     private DefaultListModel<Cliente> modeloListaClientes;
     private JList<Cliente> listaClientes;
@@ -33,11 +37,17 @@ public class PagoServicioFrame extends JFrame{
     private JTextField txtNumeroTarjeta;
     private JTextArea areaRecibo;
 
+
     private Cliente clienteSeleccionado;
     private Consumo consumoSeleccionado;
 
-    public PagoServicioFrame(PagoServicioController controller) {
+    
+    public PagoServicioFrame(PagoServicioController controller, ReciboModel reciboModel) {
         this.controller = controller;
+        this.reciboModel = reciboModel;
+        
+        this.reciboModel.addObserver(this);
+        
         inicializarUI();
     }
 
@@ -47,20 +57,17 @@ public class PagoServicioFrame extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-     
         JPanel panelBusqueda = new JPanel(new BorderLayout());
         panelBusqueda.add(new JLabel("Número de servicio:"), BorderLayout.WEST);
 
         txtNumeroServicio = new JTextField();
         panelBusqueda.add(txtNumeroServicio, BorderLayout.CENTER);
 
-        
         modeloListaClientes = new DefaultListModel<>();
         listaClientes = new JList<>(modeloListaClientes);
         JScrollPane scrollClientes = new JScrollPane(listaClientes);
         scrollClientes.setPreferredSize(new Dimension(250, 100));
 
-     
         JPanel panelCentro = new JPanel(new GridLayout(3, 1));
         areaDatosConsumo = new JTextArea("Datos de consumo aparecerán aquí...");
         areaDatosConsumo.setEditable(false);
@@ -79,26 +86,23 @@ public class PagoServicioFrame extends JFrame{
         add(scrollClientes, BorderLayout.EAST);
         add(panelCentro, BorderLayout.CENTER);
 
-       
+     
         txtNumeroServicio.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 String criterio = txtNumeroServicio.getText();
                 modeloListaClientes.clear();
                 List<Cliente> clientes = controller.buscarPorNumeroServicio(criterio);
-                for (Cliente c : clientes) {
-                    modeloListaClientes.addElement(c);
-                }
+                clientes.forEach(modeloListaClientes::addElement);
             }
         });
 
-      
+    
         listaClientes.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 clienteSeleccionado = listaClientes.getSelectedValue();
                 if (clienteSeleccionado != null) {
                     consumoSeleccionado = controller.obtenerDatosConsumo(clienteSeleccionado.getNumeroServicio());
-
                     if (consumoSeleccionado != null) {
                         areaDatosConsumo.setText("=== DATOS DE CONSUMO ===\n" +
                                 "Cliente: " + clienteSeleccionado.getNombre() + "\n" +
@@ -112,23 +116,29 @@ public class PagoServicioFrame extends JFrame{
             }
         });
 
-
-    txtNumeroTarjeta.addActionListener(e -> {
-        if (clienteSeleccionado != null && consumoSeleccionado != null) {
-            try {
-                Recibo recibo = controller.confirmarPago(
-                    clienteSeleccionado,
-                    consumoSeleccionado,
-                    txtNumeroTarjeta.getText()
-                );
-                areaRecibo.setText(recibo.toString());
-            } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage());
+        
+        txtNumeroTarjeta.addActionListener(e -> {
+            if (clienteSeleccionado != null && consumoSeleccionado != null) {
+                try {
+                  
+                    controller.confirmarPago(
+                            clienteSeleccionado,
+                            consumoSeleccionado,
+                            txtNumeroTarjeta.getText()
+                    );
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                }
             }
+        });
+    }
+
+  @Override
+    public void update() {
+  
+        Recibo recibo = reciboModel.getReciboGenerado();
+        if (recibo != null) {
+            areaRecibo.setText(recibo.toString());
         }
-    });
-
-
-}
-    
+    }
 }

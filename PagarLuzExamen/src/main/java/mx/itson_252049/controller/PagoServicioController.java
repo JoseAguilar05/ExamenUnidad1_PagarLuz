@@ -39,32 +39,27 @@ public class PagoServicioController {
         return clienteModel.buscarPorNumeroServicio(numeroServicio);
     }
 
-    public Cliente seleccionarCliente(int idCliente) {
-        return clienteModel.seleccionarCliente(idCliente);
-    }
-
+ 
     public Consumo obtenerDatosConsumo(String numeroServicio) {
         return consumoModel.obtenerDatosConsumo(numeroServicio);
     }
 
-    public boolean validarTarjeta(Tarjeta tarjeta) {
-        return tarjetaModel.validarTarjeta(tarjeta);
-    }
-
-    public Recibo generarRecibo(Cliente cliente, Consumo consumo, Tarjeta tarjeta) {
-        reciboModel.generaRecibo(cliente, consumo, tarjeta);
-        return reciboModel.getReciboGenerado();
-    }
-
-    public Recibo confirmarPago(Cliente cliente, Consumo consumo, String numeroTarjeta) {
+  
+    public void confirmarPago(Cliente cliente, Consumo consumo, String numeroTarjeta) {
+      
         Tarjeta tarjeta = tarjetaModel.crearTarjeta(numeroTarjeta);
 
+     
         if (!tarjetaModel.validarTarjeta(tarjeta)) {
+  
             throw new IllegalArgumentException("Tarjeta no válida. Debe tener 16 dígitos y estar vigente.");
         }
 
-        return generarRecibo(cliente, consumo, tarjeta);
+        reciboModel.generaRecibo(cliente, consumo, tarjeta);
+    }
+    
+    
+    public Cliente seleccionarCliente(int idCliente) {
+        return clienteModel.seleccionarCliente(idCliente);
     }
 }
-   
-
