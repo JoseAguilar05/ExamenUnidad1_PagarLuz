@@ -39,7 +39,7 @@ public class ReciboModel {
     );
 
     
-    reciboGenerado.agregarTarjeta(tarjeta);
+    reciboGenerado.setTarjeta(tarjeta);
 
     
     consumo.setRecibo(reciboGenerado);

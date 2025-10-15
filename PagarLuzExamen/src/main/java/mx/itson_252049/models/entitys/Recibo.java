@@ -19,7 +19,7 @@ public class Recibo {
     private Date fechaPago;
     private double montoPagado;
     private String numeroAutorizacion;
-    private List<Tarjeta> tarjetas = new ArrayList<>();
+    private Tarjeta tarjeta;
 
     public Recibo(int idRecibo, Date fechaPago, double montoPagado, String numeroAutorizacion) {
         this.idRecibo = idRecibo;
@@ -40,16 +40,14 @@ public class Recibo {
     public String getNumeroAutorizacion() { return numeroAutorizacion; }
     public void setNumeroAutorizacion(String numeroAutorizacion) { this.numeroAutorizacion = numeroAutorizacion; }
     
-    
-    public void agregarTarjeta(Tarjeta tarjeta) {
-        tarjetas.add(tarjeta);
-    }
-    
-    
-   public List<Tarjeta> getTarjetas() {
-        return Collections.unmodifiableList(tarjetas);
+     public void setTarjeta(Tarjeta tarjeta) {
+        this.tarjeta = tarjeta;
     }
 
+    public Tarjeta getTarjeta() {
+        return this.tarjeta;
+    }
+    
         @Override
      public String toString() {
          return "=== RECIBO DE PAGO ===\n" +
