@@ -33,7 +33,8 @@ public class MainPagarLuz {
        
         SwingUtilities.invokeLater(() -> {
          
-            PagoServicioFrame frame = new PagoServicioFrame(controller, reciboModel);
+            PagoServicioFrame frame = new PagoServicioFrame(controller);
+            reciboModel.addObserver(frame);
             frame.setVisible(true);
         });
     }

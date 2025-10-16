@@ -27,9 +27,7 @@ import mx.itson_252049.models.observer.Observer;
 public class PagoServicioFrame extends JFrame implements Observer{
   private final PagoServicioController controller;
     
-   
-    private final ReciboModel reciboModel;
-
+    
   
     private JTextField txtNumeroServicio;
     private DefaultListModel<Cliente> modeloListaClientes;
@@ -43,12 +41,8 @@ public class PagoServicioFrame extends JFrame implements Observer{
     private Consumo consumoSeleccionado;
 
     
-    public PagoServicioFrame(PagoServicioController controller, ReciboModel reciboModel) {
-        this.controller = controller;
-        this.reciboModel = reciboModel;
-        
-        this.reciboModel.addObserver(this);
-        
+    public PagoServicioFrame(PagoServicioController controller) {
+        this.controller = controller;        
         inicializarUI();
     }
 
